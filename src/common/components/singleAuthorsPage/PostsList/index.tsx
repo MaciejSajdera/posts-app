@@ -89,7 +89,7 @@ export default function PostsList({
                   </Button>
                 </Grid>
                 <Grid item>
-                  <MyNextLink href={`${baseUrl}/user/${author.id}/${post.id}`}>
+                  <MyNextLink href={`/user/${author.id}/${post.id}`}>
                     <Typography variant="h6" component="h2">
                       {capitalizeFirstLetter(
                         post?.title?.substring(0, 50).trim()
