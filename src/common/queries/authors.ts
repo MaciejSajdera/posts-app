@@ -1,9 +1,9 @@
 import axios from "axios";
 import { TAuthor, TAuthorsAvatar } from "../contexts/authors/types";
-import { baseApiUrl } from "../lib/constans";
+import { baseUrl } from "../lib/constans";
 
 export async function fetchAllAuthors(limit: number): Promise<TAuthor[]> {
-  const res = await axios.get(`${baseApiUrl}/users?&_limit=${limit}`);
+  const res = await axios.get(`${baseUrl}/users?&_limit=${limit}`);
 
   if (res.status !== 200) {
     throw new Error("Error fetching authors");
@@ -13,7 +13,7 @@ export async function fetchAllAuthors(limit: number): Promise<TAuthor[]> {
 }
 
 export async function fetchSingleAuthor(userId: number): Promise<TAuthor> {
-  const res = await axios.get(`${baseApiUrl}/users/${userId}`);
+  const res = await axios.get(`${baseUrl}/users/${userId}`);
 
   if (res.status !== 200) {
     throw new Error("Error fetching single author");
@@ -25,9 +25,7 @@ export async function fetchAuthorsAvatar(
   userId: number,
   limit: number
 ): Promise<TAuthorsAvatar> {
-  const res = await axios.get(
-    `${baseApiUrl}/photos?albumId=${userId}&_limit=1`
-  );
+  const res = await axios.get(`${baseUrl}/photos?albumId=${userId}&_limit=1`);
 
   if (res.status !== 200) {
     throw new Error("Error fetching author picture");
