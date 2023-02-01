@@ -16,7 +16,6 @@ const Home: NextPageWithLayout = () => {
 
   return (
     <PaddingBox>
-      {allAuthorsContext.isLoading ? <LoaderRelative /> : null}
       {allAuthorsContext.error ? (
         <div>Error: {allAuthorsContext.error.message}</div>
       ) : null}
