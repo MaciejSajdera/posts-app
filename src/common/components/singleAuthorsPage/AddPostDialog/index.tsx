@@ -18,9 +18,9 @@ export default function AddPostDialog({
 }: TAddPostDialogProps): JSX.Element {
   const { state: modalState, dispatch: dispatchDialog } =
     useAddPostDialogContext();
-  const { dispatch: postsDispatch } = useSingleAuthorsPostsContext();
+  const { state: postsState, dispatch: postsDispatch } = useSingleAuthorsPostsContext();
+
   const { author } = useSingleAuthorContext();
-  //   const { state: postsState } = useSingleAuthorsPostsContext();
 
   const handleCloseDialog = (e: object) => {
     dispatchDialog(closeAddPostDialogAction(e, "backdropClick"));
@@ -39,7 +39,7 @@ export default function AddPostDialog({
     console.log(res);
 
     const postData: TPost = {
-      id: res.data.id,
+      id: postsState.length + 1,
       title: res.data.data.title,
       userId: author.id,
       body: res.data.data.body,
