@@ -69,7 +69,7 @@ export default function PostsList({
           <div key={`${post?.title}_${post?.id}_${i}`}>
             <Divider />
             <ListItem sx={{ padding: theme.spacing(2) }}>
-              <Grid container gap={theme.spacing(4)} item>
+              <Grid container gap={theme.spacing(4)} item wrap="nowrap">
                 <Grid item>
                   <Button
                     variant="contained"

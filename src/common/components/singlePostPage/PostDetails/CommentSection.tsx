@@ -55,6 +55,7 @@ export default function CommentSection({ postId, ...rest }: Props) {
                       <Grid container>
                         <Grid
                           mb={theme.spacing(2)}
+                          width={"100%"}
                           sx={{
                             display: "flex",
                             alignItems: "flex-start",
