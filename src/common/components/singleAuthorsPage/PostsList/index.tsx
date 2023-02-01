@@ -66,14 +66,14 @@ export default function PostsList({
         {<DeletePostDialog postToDelete={postToDelete} />}
 
         {postsState?.map((post, i) => (
-          <div key={`posts-list-item-${post.id}`}>
+          <div key={`${post?.title}_${i}`}}>
             <Divider />
             <ListItem sx={{ padding: theme.spacing(2) }}>
               <Grid
                 container
                 gap={theme.spacing(4)}
                 item
-                key={`${post?.title}_${i}`}
+                
               >
                 <Grid item>
                   <Button
