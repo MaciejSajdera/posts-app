@@ -20,8 +20,6 @@ export type TAllAuthorsContext = {
 
 export type TSingleAuthorContext = {
   author: TAuthor;
-  authorsAvatar: TAuthorsAvatar;
-
   isLoading: boolean;
   error: Error | null;
 };
@@ -29,4 +27,10 @@ export type TSingleAuthorContext = {
 export type TAuthorsAvatar = {
   url?: string;
   alt?: string;
+};
+
+export type TSingleAuthorsAvatarContext = {
+  authorsAvatar: TAuthorsAvatar;
+  isLoading: boolean;
+  error: Error | null;
 };

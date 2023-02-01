@@ -3,6 +3,7 @@ import { Grid } from "@mui/material";
 import React from "react";
 import AuthorsCard from "../../ui/Cards/AuthorsCard";
 import { useAllAuthorsContext } from "@/common/contexts/authors/AllAuthors";
+import SingleAuthorsAvatarContextProvider from "@/common/contexts/authors/SingleAuthorAvatar";
 
 type Props = {};
 
@@ -26,7 +27,9 @@ export default function AuthorsGrid({}: Props) {
             author && author.id ? (
               <Grid item key={`${author.email}_${author.id}`} xs={5}>
                 <SingleAuthorContextProvider id={Number(author.id)}>
-                  <AuthorsCard />
+                  <SingleAuthorsAvatarContextProvider id={Number(author.id)}>
+                    <AuthorsCard />
+                  </SingleAuthorsAvatarContextProvider>
                 </SingleAuthorContextProvider>
               </Grid>
             ) : null

@@ -8,11 +8,13 @@ import * as React from "react";
 
 import Link from "@/common/components/ui/MyNextLink";
 import theme from "@/styles/theme";
+import { useSingleAuthorsAvatarContext } from "@/common/contexts/authors/SingleAuthorAvatar";
 
 export type TAuthorsCard = React.HTMLAttributes<HTMLElement>;
 
 export default function AuthorsCard({ ...props }: TAuthorsCard): JSX.Element {
-  const { author: author, authorsAvatar } = useSingleAuthorContext();
+  const { author: author } = useSingleAuthorContext();
+  const { isLoading, error, authorsAvatar } = useSingleAuthorsAvatarContext();
 
   const hasImage = authorsAvatar && authorsAvatar?.url;
   const hasAlt = authorsAvatar && authorsAvatar?.alt;
