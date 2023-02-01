@@ -20,7 +20,15 @@ export default function AuthorsCard({ ...props }: TAuthorsCard): JSX.Element {
   const hasAlt = authorsAvatar && authorsAvatar?.alt;
 
   return (
-    <Card {...props} sx={{ height: "100%" }}>
+    <Card
+      {...props}
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexFlow: "column",
+        justifyContent: "space-between",
+      }}
+    >
       <Link href={`/user/${author.id}`} style={{ textDecoration: "none" }}>
         <CardActionArea>
           <CardMedia
