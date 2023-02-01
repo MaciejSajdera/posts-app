@@ -1,5 +1,9 @@
 import { QueryKey, UseQueryOptions, useQuery } from "react-query";
-import { fetchCommentsByPostId, fetchPostsByAuthorId } from "../queries/posts";
+import {
+  fetchCommentsByPostId,
+  fetchPostsByAuthorId,
+  fetchSinglePostById,
+} from "../queries/posts";
 import { TComment, TPost } from "../contexts/posts/types";
 // import useLocalStorage from "./localStorage";
 
@@ -10,6 +14,17 @@ export default function useSingleAuthorsPostsQuery(
   return useQuery<TPost[], Error>({
     queryKey: ["posts", userId] as const,
     queryFn: () => fetchPostsByAuthorId(userId),
+    ...options,
+  });
+}
+
+export function useSinglePostByIdQuery(
+  id: number,
+  options?: UseQueryOptions<TPost, Error, TPost, QueryKey>
+) {
+  return useQuery<TPost, Error>({
+    queryKey: ["post", id] as const,
+    queryFn: () => fetchSinglePostById(id),
     ...options,
   });
 }

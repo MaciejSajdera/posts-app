@@ -21,7 +21,7 @@ export default function AuthorsGrid({}: Props) {
           container
           justifyContent={"center"}
           spacing={{ xs: 2, md: 4 }}
-          columns={{ xs: 5, sm: 8, md: 18 }}
+          columns={{ xs: 5, sm: 8, md: 20 }}
         >
           {allAuthorsContext.authors.map((author) =>
             author && author.id ? (

@@ -10,15 +10,20 @@ import {
   useSingleAuthorsPostsContext,
 } from "@/common/contexts/posts/authorsPosts";
 import { useSingleAuthorContext } from "@/common/contexts/authors/SingleAuthor";
+import { LoadingButton } from "@mui/lab";
+import { useState } from "react";
+import SaveIcon from "@mui/icons-material/Save";
 
 type TAddPostDialogProps = React.HTMLAttributes<HTMLElement>;
 
 export default function AddPostDialog({
   ...rest
 }: TAddPostDialogProps): JSX.Element {
+  const [submitting, setSubmitting] = useState(false);
   const { state: modalState, dispatch: dispatchDialog } =
     useAddPostDialogContext();
-  const { state: postsState, dispatch: postsDispatch } = useSingleAuthorsPostsContext();
+  const { state: postsState, dispatch: postsDispatch } =
+    useSingleAuthorsPostsContext();
 
   const { author } = useSingleAuthorContext();
 
@@ -34,9 +39,10 @@ export default function AddPostDialog({
   } = useForm<TPost>();
 
   const onSubmit = async (data: TPost) => {
-    const res = await addPost(data);
+    console.log("submitting");
+    setSubmitting(true);
 
-    console.log(res);
+    const res = await addPost(data);
 
     const postData: TPost = {
       id: postsState.length + 1,
@@ -47,9 +53,7 @@ export default function AddPostDialog({
 
     if (res.status === 201) {
       postsDispatch(addPostAction(postData));
-      //   const updatedPosts = [...postsState, postData];
-      //   console.log(updatedPosts);
-      //   setStoredPosts(updatedPosts);
+      setSubmitting(false);
       dispatchDialog(closeAddPostDialogAction());
       reset();
     }
@@ -99,9 +103,16 @@ export default function AddPostDialog({
 
           <Grid item xs={4}>
             <Box sx={{ display: "flex", gap: "1rem" }}>
-              <Button variant="contained" type="submit">
+              <LoadingButton
+                loading={submitting}
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+                color="primary"
+                variant="contained"
+                type="submit"
+              >
                 Add Post
-              </Button>
+              </LoadingButton>
               <Button
                 variant="contained"
                 color="error"

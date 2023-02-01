@@ -22,7 +22,7 @@ export async function deletePost(data: TPost) {
   return res;
 }
 
-export async function fetchPostById(id: TPost["id"]): Promise<TPost> {
+export async function fetchSinglePostById(id: TPost["id"]): Promise<TPost> {
   const res = await axios.get(`${baseApiUrl}/posts?id=${id}`);
   return res.data[0];
 }

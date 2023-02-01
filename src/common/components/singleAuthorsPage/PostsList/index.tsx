@@ -21,15 +21,14 @@ import {
 import { useCallback, useEffect } from "react";
 import MyNextLink from "../../ui/MyNextLink";
 import DeletePostDialog from "../DeletePostDialog";
+import useSingleAuthorsPostsQuery from "@/common/hooks/posts";
 
 export type TPostListProps = {
-  initialPosts: TPost[];
   postToDelete: TPost;
   setPostToDelete: React.Dispatch<React.SetStateAction<TPost>>;
 } & React.HtmlHTMLAttributes<HTMLDivElement>;
 
 export default function PostsList({
-  initialPosts,
   postToDelete,
   setPostToDelete,
   ...rest
@@ -38,8 +37,8 @@ export default function PostsList({
     useDeletePostDialogContext();
   const { state: postsState, dispatch: dispatchPosts } =
     useSingleAuthorsPostsContext();
-
   const { isLoading: isAuthorLoading, author } = useSingleAuthorContext();
+  const { data: initialPosts } = useSingleAuthorsPostsQuery(Number(author?.id));
 
   const setInitialPosts = useCallback(() => {
     if (initialPosts) {
@@ -55,7 +54,7 @@ export default function PostsList({
     return <Typography variant="h6">Loading...</Typography>;
   }
 
-  if (postsState.length === 0) {
+  if (postsState?.length === 0 && initialPosts?.length === 0) {
     return <Typography variant="h6">No posts yet</Typography>;
   }
 

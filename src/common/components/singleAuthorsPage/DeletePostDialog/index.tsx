@@ -3,17 +3,20 @@ import {
   useDeletePostDialogContext,
 } from "@/common/contexts/dialog/DeletePost";
 import { TPost } from "@/common/contexts/posts/types";
-import { deletePost, fetchPostById } from "@/common/queries/posts";
+import { deletePost, fetchSinglePostById } from "@/common/queries/posts";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import DialogMUI from "../../ui/Dialog";
+import SaveIcon from "@mui/icons-material/Save";
 
-import { useSingleAuthorContext } from "@/common/contexts/authors/SingleAuthor";
 import {
   deletePostAction,
   useSingleAuthorsPostsContext,
 } from "@/common/contexts/posts/authorsPosts";
 import theme from "@/styles/theme";
+import { useState } from "react";
+import { LoadingButton } from "@mui/lab";
+import { capitalizeFirstLetter } from "@/common/utils/helpers";
 
 type TDeletePostDialogProps = {
   postToDelete: TPost;
@@ -23,17 +26,16 @@ export default function DeletePostDialog({
   postToDelete,
   ...rest
 }: TDeletePostDialogProps): JSX.Element {
+  const [submitting, setSubmitting] = useState(false);
   const { state: modalState, dispatch: dispatchDialog } =
     useDeletePostDialogContext();
   const { dispatch: postsDispatch } = useSingleAuthorsPostsContext();
-  const { author } = useSingleAuthorContext();
 
   const handleCloseDialog = (e: object) => {
     dispatchDialog(closeDeletePostDialogAction(e, "backdropClick"));
   };
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
     reset,
@@ -41,11 +43,13 @@ export default function DeletePostDialog({
 
   const onSubmit = async () => {
     console.log("submitting");
+    setSubmitting(true);
 
     const res = await deletePost(postToDelete);
 
     if (res.status === 200) {
       postsDispatch(deletePostAction(postToDelete));
+      setSubmitting(false);
       dispatchDialog(closeDeletePostDialogAction());
       reset();
     }
@@ -69,18 +73,32 @@ export default function DeletePostDialog({
           <Grid item xs={4}>
             <Grid item mb={theme.spacing(4)}>
               <Typography
+                mb={theme.spacing(2)}
+                variant="h5"
+                component="p"
+                sx={{ fontWeight: "bold" }}
+              >
+                Are you sure you want to delete this post?
+              </Typography>
+              <Typography
                 variant="h6"
                 component="p"
                 sx={{ fontWeight: "bold" }}
               >
-                Are you sure you want to delete this post: {postToDelete?.title}
-                ?
+                {capitalizeFirstLetter(postToDelete?.title)}
               </Typography>
             </Grid>
             <Box sx={{ display: "flex", gap: "1rem" }}>
-              <Button variant="contained" color="error" type="submit">
+              <LoadingButton
+                loading={submitting}
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+                variant="contained"
+                color="error"
+                type="submit"
+              >
                 Remove
-              </Button>
+              </LoadingButton>
               <Button
                 variant="outlined"
                 color="primary"

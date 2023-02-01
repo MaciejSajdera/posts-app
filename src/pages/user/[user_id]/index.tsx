@@ -3,32 +3,40 @@ import PostsList from "@/common/components/singleAuthorsPage/PostsList";
 import PaddingBox from "@/common/components/ui/PaddingBox";
 import SingleAuthorsPageHeader from "@/common/components/ui/PageHeader";
 import SingleAuthorContextProvider from "@/common/contexts/authors/SingleAuthor";
-import { TAuthor } from "@/common/contexts/authors/types";
 import SingleAuthorsPostsContextProvider from "@/common/contexts/posts/authorsPosts";
 import { TPost } from "@/common/contexts/posts/types";
 import { NextPageWithLayout } from "@/common/global-types/next-components";
+import { useSingleAuthorQuery } from "@/common/hooks/authors";
+import useSingleAuthorsPostsQuery from "@/common/hooks/posts";
 import { fetchSingleAuthor } from "@/common/queries/authors";
 import { fetchPostsByAuthorId } from "@/common/queries/posts";
 import RootLayout from "@/layouts/root";
 import { Grid } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { ReactElement, useState } from "react";
 
-const SingleAuthorPage: NextPageWithLayout<{
-  author: TAuthor;
-  initialPosts: TPost[];
-}> = ({ author, initialPosts }) => {
-  const [postToDelete, setPostToDelete] = useState<TPost>(initialPosts[0]);
+const SingleAuthorPage: NextPageWithLayout = () => {
+  const router = useRouter();
+
+  const { user_id } = router.query;
+
+  const { data: author } = useSingleAuthorQuery(Number(user_id));
+  const [postToDelete, setPostToDelete] = useState<TPost>({
+    id: 0,
+    title: "",
+    body: "",
+    userId: 0,
+  });
 
   return (
-    <SingleAuthorContextProvider id={Number(author.id)}>
-      <SingleAuthorsPostsContextProvider id={Number(author.id)}>
-        <Head>
-          <title>{author.name}</title>
-        </Head>
-
+    <SingleAuthorContextProvider id={Number(user_id)}>
+      <SingleAuthorsPostsContextProvider id={Number(user_id)}>
         <SingleAuthorsPageHeader variant="author" />
+        <Head>
+          <title>{author?.name}</title>
+        </Head>
         <Grid
           style={{
             height: "100%",
@@ -40,9 +48,8 @@ const SingleAuthorPage: NextPageWithLayout<{
           <AddPostDialog />
           <PaddingBox>
             <PostsList
-              initialPosts={initialPosts}
-              postToDelete={postToDelete}
-              setPostToDelete={setPostToDelete}
+              postToDelete={postToDelete || {}}
+              setPostToDelete={setPostToDelete || {}}
             />
           </PaddingBox>
         </Grid>

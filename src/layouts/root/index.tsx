@@ -22,7 +22,14 @@ export default function RootLayout({
       </Head>
       <AddPostDialogContextProvider>
         <DeletePostDialogContextProvider>
-          <Box mt={6} component={"main"} maxWidth={"xl"} margin={"auto"}>
+          <Box
+            mt={6}
+            component={"main"}
+            maxWidth={"lg"}
+            minHeight={"100vh"}
+            margin={"auto"}
+            paddingY={theme.spacing(2)}
+          >
             <Box sx={{ width: "100%", height: "auto" }}>{children}</Box>
           </Box>
         </DeletePostDialogContextProvider>
