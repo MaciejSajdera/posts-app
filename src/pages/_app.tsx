@@ -1,10 +1,9 @@
 import { AppPropsWithLayout } from "@/common/global-types/next-components";
 import "@/styles/globals.css";
-import { useState } from "react";
-import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
-import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/styles/theme";
-import AllAuthorsContextProvider from "@/common/contexts/authors/AllAuthors";
+import { ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const [queryClient] = useState(() => new QueryClient());
@@ -13,11 +12,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return getLayout(
     <QueryClientProvider client={queryClient}>
-      <AllAuthorsContextProvider>
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </AllAuthorsContextProvider>
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
