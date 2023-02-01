@@ -1,11 +1,10 @@
 import AuthorsCard from "@/common/components/ui/Cards/AuthorsCard";
-import LoaderRelative from "@/common/components/ui/LoaderRelative/LoaderRelative";
 import PaddingBox from "@/common/components/ui/PaddingBox";
 import { useAllAuthorsContext } from "@/common/contexts/authors/AllAuthors";
 import SingleAuthorContextProvider from "@/common/contexts/authors/SingleAuthor";
 import { NextPageWithLayout } from "@/common/global-types/next-components";
 import RootLayout from "@/layouts/root";
-import { Box, Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import { ReactElement } from "react";
 
 const title = "Home";
