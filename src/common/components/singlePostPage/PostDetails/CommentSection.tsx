@@ -41,13 +41,17 @@ export default function CommentSection({ postId, ...rest }: Props) {
             <List
               {...rest}
               dense
-              sx={{ display: "flex", flexDirection: "column", gap: "2rem" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: theme.spacing(2),
+              }}
             >
               {listItems?.map((item, i) => {
                 return (
                   <div key={`list-item-${item.id}`}>
                     <Divider />
-                    <ListItem>
+                    <ListItem sx={{ padding: theme.spacing(2) }}>
                       <Grid container>
                         <Grid
                           mb={theme.spacing(2)}

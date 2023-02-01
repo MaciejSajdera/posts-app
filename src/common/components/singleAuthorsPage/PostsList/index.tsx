@@ -25,13 +25,16 @@ import {
 
 export type TPostListProps = {
   initialPosts: TPost[];
+  postToDelete: TPost;
+  setPostToDelete: React.Dispatch<React.SetStateAction<TPost>>;
 } & React.HtmlHTMLAttributes<HTMLDivElement>;
 
 export default function PostsList({
   initialPosts,
+  postToDelete,
+  setPostToDelete,
   ...rest
 }: TPostListProps): JSX.Element {
-  const [postToDelete, setPostToDelete] = useState<TPost>();
   const { state: modalState, dispatch: dispatchDialog } =
     useDeletePostDialogContext();
   const { state: postsState, dispatch: dispatchPosts } =
@@ -60,7 +63,7 @@ export default function PostsList({
   if (postsState.length > 0) {
     return (
       <Box {...rest}>
-        {postToDelete ? <DeletePostDialog postToDelete={postToDelete} /> : null}
+        {<DeletePostDialog postToDelete={postToDelete} />}
 
         {postsState?.map((post, i) => (
           <div key={`posts-list-item-${post.id}`}>

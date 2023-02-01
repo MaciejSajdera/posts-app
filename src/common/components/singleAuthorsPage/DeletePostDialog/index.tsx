@@ -37,22 +37,15 @@ export default function DeletePostDialog({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<{ id: string }>();
+  } = useForm();
 
-  const onSubmit = async (data: { id: string }) => {
+  const onSubmit = async () => {
     console.log("submitting");
-
-    const idNumber = Number(data.id);
-
-    const postToDelete = await fetchPostById(idNumber);
 
     const res = await deletePost(postToDelete);
 
     if (res.status === 200) {
       postsDispatch(deletePostAction(postToDelete));
-      //   const updatedPosts = [...postsState, postData];
-      //   console.log(updatedPosts);
-      //   setStoredPosts(updatedPosts);
       dispatchDialog(closeDeletePostDialogAction());
       reset();
     }
@@ -84,19 +77,13 @@ export default function DeletePostDialog({
                 ?
               </Typography>
             </Grid>
-            <input
-              {...register("id", { required: true })}
-              value={postToDelete?.id}
-              // disabled
-              // hidden
-            />
             <Box sx={{ display: "flex", gap: "1rem" }}>
-              <Button variant="contained" type="submit">
+              <Button variant="contained" color="error" type="submit">
                 Remove
               </Button>
               <Button
-                variant="contained"
-                color="error"
+                variant="outlined"
+                color="primary"
                 onClick={(e) => handleCloseDialog(e)}
               >
                 Cancel

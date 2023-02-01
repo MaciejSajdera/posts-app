@@ -1,4 +1,5 @@
 import AuthorsCard from "@/common/components/ui/Cards/AuthorsCard";
+import LoaderRelative from "@/common/components/ui/LoaderRelative/LoaderRelative";
 import PaddingBox from "@/common/components/ui/PaddingBox";
 import { useAllAuthorsContext } from "@/common/contexts/authors/AllAuthors";
 import SingleAuthorContextProvider from "@/common/contexts/authors/SingleAuthor";
@@ -15,19 +16,21 @@ const Home: NextPageWithLayout = () => {
 
   return (
     <PaddingBox>
-      {allAuthorsContext.isLoading ? <Typography>Loading...</Typography> : null}
+      {allAuthorsContext.isLoading ? <LoaderRelative /> : null}
       {allAuthorsContext.error ? (
         <div>Error: {allAuthorsContext.error.message}</div>
       ) : null}
-      {allAuthorsContext?.authors?.length > 0 ? (
+      {allAuthorsContext?.authors?.length > 0 &&
+      !allAuthorsContext.isLoading ? (
         <Grid
           container
+          justifyContent={"center"}
           spacing={{ xs: 2, md: 4 }}
-          columns={{ xs: 4, sm: 8, md: 16 }}
+          columns={{ xs: 5, sm: 8, md: 18 }}
         >
           {allAuthorsContext.authors.map((author) =>
             author && author.id ? (
-              <Grid item key={`${author.email}_${author.id}`} xs={4}>
+              <Grid item key={`${author.email}_${author.id}`} xs={5}>
                 <SingleAuthorContextProvider id={Number(author.id)}>
                   <AuthorsCard />
                 </SingleAuthorContextProvider>

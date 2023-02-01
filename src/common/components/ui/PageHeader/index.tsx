@@ -40,7 +40,9 @@ export default function SinglePageHeader({
     <Box
       mt={theme.spacing(8)}
       mb={theme.spacing(8)}
-      sx={{ width: "100%" }}
+      ml={"auto"}
+      mr={"auto"}
+      sx={{ maxWidth: 1200 }}
       {...rest}
     >
       <Box

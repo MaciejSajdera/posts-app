@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 
 import Link from "@/common/components/ui/MyNextLink";
+import theme from "@/styles/theme";
 
 export type TAuthorsCard = React.HTMLAttributes<HTMLElement>;
 
@@ -29,7 +30,7 @@ export default function AuthorsCard({ ...props }: TAuthorsCard): JSX.Element {
           <CardContent>
             <Typography
               gutterBottom
-              variant="h5"
+              variant="h6"
               component="div"
               whiteSpace={"nowrap"}
               overflow={"hidden"}
@@ -64,6 +65,7 @@ export default function AuthorsCard({ ...props }: TAuthorsCard): JSX.Element {
             href={`https://${author?.website}`}
             target={"_blank"}
             rel="noreferrer"
+            style={{ color: theme.palette.primary.main }}
           >
             {author?.website}
           </a>

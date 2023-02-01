@@ -6,21 +6,21 @@ import SingleAuthorContextProvider from "@/common/contexts/authors/SingleAuthor"
 import { TAuthor } from "@/common/contexts/authors/types";
 import SingleAuthorsPostsContextProvider from "@/common/contexts/posts/authorsPosts";
 import { TPost } from "@/common/contexts/posts/types";
-
 import { NextPageWithLayout } from "@/common/global-types/next-components";
 import { fetchSingleAuthor } from "@/common/queries/authors";
 import { fetchPostsByAuthorId } from "@/common/queries/posts";
 import RootLayout from "@/layouts/root";
-import { Box, Grid } from "@mui/material";
-
+import { Grid } from "@mui/material";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 
 const SingleAuthorPage: NextPageWithLayout<{
   author: TAuthor;
   initialPosts: TPost[];
 }> = ({ author, initialPosts }) => {
+  const [postToDelete, setPostToDelete] = useState<TPost>(initialPosts[0]);
+
   return (
     <SingleAuthorContextProvider id={Number(author.id)}>
       <SingleAuthorsPostsContextProvider id={Number(author.id)}>
@@ -39,7 +39,11 @@ const SingleAuthorPage: NextPageWithLayout<{
         >
           <AddPostDialog />
           <PaddingBox>
-            <PostsList initialPosts={initialPosts} />
+            <PostsList
+              initialPosts={initialPosts}
+              postToDelete={postToDelete}
+              setPostToDelete={setPostToDelete}
+            />
           </PaddingBox>
         </Grid>
       </SingleAuthorsPostsContextProvider>
@@ -57,7 +61,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const userId = Number(context.query?.user_id);
 
   const author = await fetchSingleAuthor(userId);
-
   const initialPosts = await fetchPostsByAuthorId(userId);
 
   return {
