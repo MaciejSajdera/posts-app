@@ -1,9 +1,15 @@
 import { useSingleAuthorContext } from "@/common/contexts/authors/SingleAuthor";
 import {
+  openDeletePostDialogAction,
+  useDeletePostDialogContext,
+} from "@/common/contexts/dialog/DeletePost";
+import {
   setPostsAction,
   useSingleAuthorsPostsContext,
 } from "@/common/contexts/posts/authorsPosts";
 import { TPost } from "@/common/contexts/posts/types";
+import { capitalizeFirstLetter } from "@/common/utils/helpers";
+import theme from "@/styles/theme";
 import {
   Box,
   Button,
@@ -12,16 +18,9 @@ import {
   ListItem,
   Typography,
 } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import MyNextLink from "../../ui/MyNextLink";
-import { baseUrl } from "@/common/lib/constans";
-import { capitalizeFirstLetter } from "@/common/utils/helpers";
-import theme from "@/styles/theme";
 import DeletePostDialog from "../DeletePostDialog";
-import {
-  openDeletePostDialogAction,
-  useDeletePostDialogContext,
-} from "@/common/contexts/dialog/DeletePost";
 
 export type TPostListProps = {
   initialPosts: TPost[];
